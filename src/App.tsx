@@ -33,7 +33,7 @@ const dateBuilder = (d) => {
 }
 
   return (
-    <div className={(typeof weather.main != "undefined") ? ((weather.main.temp > 16) ? 'app warm' : 'app') : 'app'}>
+    <div className = {(typeof (weather as any).main != "undefined") ? (((weather as any).main.temp > 16) ? 'app warm' : 'app') : 'app'}>
       <main>
         <div className="search-box">
           <input 
@@ -45,18 +45,18 @@ const dateBuilder = (d) => {
             onKeyPress={search}
           />
         </div>
-        {(typeof weather.main != "undefined") ? (
+        {(typeof (weather as any).main != "undefined") ? (
         <div>
           <div className="location-box">
-            <div className="location">{weather.name}, {weather.sys.country}</div>
+            <div className="location">{(weather as any).name}, {(weather as any).sys.country}</div>
             <div className="date">{dateBuilder(new Date())}</div>
           </div>
           <div className="weather-box">
             <div className="temp">
-              {Math.round(weather.main.temp)}°c
+              {Math.round((weather as any).main.temp)}°c
             </div>
-              <div className="weather">{weather.weather[0].main} 
-                <div className="wind">Wind speed: {Math.round(weather.wind.speed)} mph</div>
+              <div className="weather">{(weather as any).weather[0].main} 
+                <div className="wind">Wind speed: {Math.round((weather as any).wind.speed)} mph</div>
               </div>
           </div>
         </div>
