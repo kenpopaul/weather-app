@@ -1,4 +1,21 @@
 import React, { useState } from "react";
+
+interface Weather {
+  main: {
+    temp: number;
+  };
+  name: string;
+  sys: {
+    country: string;
+  };
+  weather: {
+    main: string;
+  }[];
+  wind: {
+    speed: number;
+  };
+}
+
 const api = {
   key: "15706b4115981325eed7a8e8d00c9aec",
   base: "https://api.openweathermap.org/data/2.5/",
@@ -12,7 +29,7 @@ function App() {
     if (evt.key === "Enter") {
       fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
         .then((res) => res.json())
-        .then((result) => {
+        .then((result: Weather) => {
           setWeather(result);
           setQuery("");
           console.log(result);
