@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, KeyboardEvent } from "react";
 
 interface Weather {
   main: {
@@ -21,11 +21,11 @@ const api = {
   base: "https://api.openweathermap.org/data/2.5/",
 };
 
-function App() {
+function App(): JSX.Element {
   const [query, setQuery] = useState("");
-  const [weather, setWeather] = useState({});
+  const [weather, setWeather] = useState<Weather | {}>({});
 
-  const search = (evt) => {
+  const search = (evt: KeyboardEvent<HTMLInputElement>) => {
     if (evt.key === "Enter") {
       fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
         .then((res) => res.json())
@@ -37,8 +37,8 @@ function App() {
     }
   };
 
-  const dateBuilder = (d) => {
-    let months = [
+  const dateBuilder = (d: Date): string => {
+    let months: string[] = [
       "January",
       "February",
       "March",
@@ -52,7 +52,7 @@ function App() {
       "November",
       "December",
     ];
-    let days = [
+    let days: string[] = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -62,10 +62,10 @@ function App() {
       "Saturday",
     ];
 
-    let day = days[d.getDay()];
-    let date = d.getDate();
-    let month = months[d.getMonth()];
-    let year = d.getFullYear();
+    const day: string = days[d.getDay()];
+    const date: number = d.getDate();
+    const month: string = months[d.getMonth()];
+    const year: number = d.getFullYear();
 
     return `${day} ${date} ${month} ${year}`;
   };
