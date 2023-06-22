@@ -38,7 +38,7 @@ function App(): JSX.Element {
   };
 
   const dateBuilder = (d: Date): string => {
-    let months: string[] = [
+    const months: string[] = [
       "January",
       "February",
       "March",
@@ -52,7 +52,7 @@ function App(): JSX.Element {
       "November",
       "December",
     ];
-    let days: string[] = [
+    const days: string[] = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -73,8 +73,8 @@ function App(): JSX.Element {
   return (
     <div
       className={
-        typeof (weather as any).main != "undefined"
-          ? (weather as any).main.temp > 16
+        typeof (weather as Weather).main != "undefined"
+          ? (weather as Weather).main.temp > 16
             ? "app warm"
             : "app"
           : "app"
@@ -91,22 +91,22 @@ function App(): JSX.Element {
             onKeyPress={search}
           />
         </div>
-        {typeof (weather as any).main != "undefined" ? (
+        {typeof (weather as Weather).main != "undefined" ? (
           <div>
             <div className="location-box">
               <div className="location">
-                {(weather as any).name}, {(weather as any).sys.country}
+                {(weather as Weather).name}, {(weather as Weather).sys.country}
               </div>
               <div className="date">{dateBuilder(new Date())}</div>
             </div>
             <div className="weather-box">
               <div className="temp">
-                {Math.round((weather as any).main.temp)}°c
+                {Math.round((weather as Weather).main.temp)}°c
               </div>
               <div className="weather">
-                {(weather as any).weather[0].main}
+                {(weather as Weather).weather[0].main}
                 <div className="wind">
-                  Wind speed: {Math.round((weather as any).wind.speed)} mph
+                  Wind speed: {Math.round((weather as Weather).wind.speed)} mph
                 </div>
               </div>
             </div>
