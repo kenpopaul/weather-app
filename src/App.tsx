@@ -13,6 +13,7 @@ interface Weather {
   }[];
   wind: {
     speed: number;
+    deg: number;
   };
 }
 
@@ -70,6 +71,30 @@ function App(): JSX.Element {
     return `${day} ${date} ${month} ${year}`;
   };
 
+  const getWindDirection = (deg: number): string => {
+    // Converts wind direction from degrees to a human-readable format
+    const directions: string[] = [
+      "N",
+      "NNE",
+      "NE",
+      "ENE",
+      "E",
+      "ESE",
+      "SE",
+      "SSE",
+      "S",
+      "SSW",
+      "SW",
+      "WSW",
+      "W",
+      "WNW",
+      "NW",
+      "NNW",
+    ];
+    const index = Math.round(deg / 22.5) % 16;
+    return directions[index];
+  };
+
   return (
     <div
       className={
@@ -106,7 +131,12 @@ function App(): JSX.Element {
               <div className="weather">
                 {(weather as Weather).weather[0].main}
                 <div className="wind">
-                  Wind speed: {Math.round((weather as Weather).wind.speed)} mph
+                  <div>
+                    Wind speed: {Math.round((weather as Weather).wind.speed)}{" "}
+                    mph
+                  </div>
+                  Wind Direction:{" "}
+                  {getWindDirection((weather as Weather).wind.deg)}
                 </div>
               </div>
             </div>
