@@ -1,4 +1,14 @@
 import React, { useState, KeyboardEvent } from "react";
+import sunnyIcon from "./assets/sunny-icon.png";
+import rainyIcon from "./assets/rainy-icon.png";
+import cloudyIcon from "./assets/cloudy-icon.png";
+
+const weatherIcons: Record<string, string> = {
+  Clear: sunnyIcon,
+  Rain: rainyIcon,
+  Clouds: cloudyIcon,
+  // Add other weather conditions and their corresponding icons here
+};
 
 interface Weather {
   main: {
