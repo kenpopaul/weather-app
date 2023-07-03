@@ -1,4 +1,14 @@
 import React, { useState, KeyboardEvent } from "react";
+import sunnyIcon from "./assets/sunny-icon.png";
+import rainyIcon from "./assets/rainy-icon.png";
+import cloudyIcon from "./assets/cloudy-icon.png";
+
+const weatherIcons: Record<string, string> = {
+  Clear: sunnyIcon,
+  Rain: rainyIcon,
+  Clouds: cloudyIcon,
+  // Add other weather conditions and their corresponding icons here
+};
 
 interface Weather {
   main: {
@@ -129,6 +139,12 @@ function App(): JSX.Element {
                 {Math.round((weather as Weather).main.temp)}°c
               </div>
               <div className="weather">
+                <img
+                  src={weatherIcons[(weather as Weather).weather[0].main]}
+                  alt="Weather Icon"
+                  className="weather-icon"
+                />
+
                 {(weather as Weather).weather[0].main}
                 <div className="wind">
                   <div>
