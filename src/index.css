@@ -115,6 +115,6 @@ main {
 }
 
 .weather-icon {
-  width: 50px; /* Adjust the width and height as needed */
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }
