@@ -146,11 +146,13 @@ function App(): JSX.Element {
               </div>
               {/* Weather Icons */}
               <div className="weather">
-                <img
-                  src={weatherIcons[(weather as Weather).weather[0].main]}
-                  alt="Weather Icon"
-                  className="weather-icon"
-                />
+                <div className="weather-icon-pic">
+                  <img
+                    src={weatherIcons[(weather as Weather).weather[0].main]}
+                    alt="Weather Icon"
+                    className="weather-icon"
+                  />
+                </div>
                 {/* Wind Speed & Direction */}
                 {(weather as Weather).weather[0].main}
                 <div className="wind">
