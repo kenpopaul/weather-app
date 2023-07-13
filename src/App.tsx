@@ -126,7 +126,7 @@ function App(): JSX.Element {
           <input
             type="text"
             className="search-bar"
-            placeholder="Search..."
+            placeholder="Search a location......"
             onChange={(e) => setQuery(e.target.value)}
             value={query}
             onKeyDown={search}
@@ -136,7 +136,8 @@ function App(): JSX.Element {
           <div>
             <div className="location-box">
               <div className="location">
-                {(weather as Weather).name}, {(weather as Weather).sys.country}
+                Location: {(weather as Weather).name},{" "}
+                {(weather as Weather).sys.country}
               </div>
               <div className="date">{dateBuilder(new Date())}</div>
             </div>
