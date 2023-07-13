@@ -157,7 +157,7 @@ function App(): JSX.Element {
                 {(weather as Weather).weather[0].main}
                 <div className="wind">
                   <div>
-                    Wind speed: {Math.round((weather as Weather).wind.speed)}{" "}
+                    Wind Speed: {Math.round((weather as Weather).wind.speed)}{" "}
                     mph
                   </div>
                   Wind Direction:{" "}
