@@ -1,26 +1,16 @@
 /* WindCompass.css */
-
-/* Compass rotation animation */
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.wind-compass {
+  display: inline-block;
+  position: relative;
 }
 
-.wind-compass {
-  position: relative;
+.compass-icon {
   width: 100px;
   height: 100px;
 }
 
-.compass-icon {
-  width: 100%;
-  height: 100%;
-  animation: rotate 10s linear infinite; /* Adjust the animation duration as needed */
-  transform-origin: center;
+.compass-icon text {
+  font-size: 12px;
+  dominant-baseline: middle;
+  text-anchor: middle;
 }
-
-/* Add your SVG paths for the compass icon here */
