@@ -1,5 +1,6 @@
 import React from "react";
 import { Weather } from "./types";
+import WindCompass from "./WindCompass";
 
 import sunnyIcon from "./assets/sunny-icon.png";
 import rainyIcon from "./assets/rainy-icon.png";
@@ -109,6 +110,8 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           </div>
         </div>
       </div>
+      {/* Add the WindCompass component */}
+      <WindCompass windDirection={weather.wind.deg} />
     </div>
   );
 };
