@@ -1,5 +1,6 @@
 import React from "react";
 import { Weather } from "./types";
+import WindCompass from "./WindCompass";
 
 import sunnyIcon from "./assets/sunny-icon.png";
 import rainyIcon from "./assets/rainy-icon.png";
@@ -36,7 +37,6 @@ const getWindDirection = (deg: number): string => {
   return directions[index];
 };
 
-// Utility function to get formatted date
 const dateBuilder = (d: Date): string => {
   const months: string[] = [
     "January",
@@ -99,13 +99,20 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
               className="weather-icon"
             />
           </div>
-          {/* Wind Speed & Direction */}
-          {weather.weather[0].main}
-          <div className="wind">
-            <div>
-              Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
+          <div className="wind-info">
+            {/* Wind Speed & Direction */}
+            {weather.weather[0].main}
+            <div className="wind">
+              <div>
+                Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
+              </div>
+              Wind Direction: {getWindDirection(weather.wind.deg)}
             </div>
-            Wind Direction: {getWindDirection(weather.wind.deg)}
+          </div>
+
+          {/* WindCompass component */}
+          <div className="compass-container">
+            <WindCompass windDirection={weather.wind.deg} />
           </div>
         </div>
       </div>

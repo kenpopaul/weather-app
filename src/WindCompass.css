@@ -1,0 +1,19 @@
+/* WindCompass.css */
+.wind-compass {
+  display: inline-block;
+  position: relative;
+  width: 50px; /* Adjust the width to your preference */
+  height: 50px; /* Adjust the height to your preference */
+  margin-left: 10px; /* Add some spacing between the text and the compass */
+}
+
+.compass-icon {
+  width: 100px;
+  height: 100px;
+}
+
+.compass-icon text {
+  font-size: 12px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
