@@ -79,6 +79,8 @@ main {
 
 .weather-box {
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .weather-box .temp {
@@ -117,4 +119,11 @@ main {
 .weather-icon {
   width: 100px;
   height: 100px;
+}
+
+.weather {
+  /* ... (your existing weather styles) */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align text to the right */
 }
