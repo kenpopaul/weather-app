@@ -90,7 +90,7 @@ main {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
 
-  padding: 12px 22px;
+  padding: 8px 8px;
 
   color: #fff;
   font-size: 60px;
@@ -99,6 +99,9 @@ main {
   text-shadow: 3px 6px rgba(50, 50, 70, 0.5);
   text-align: center;
   box-shadow: 3px 6px rgba(0, 0, 0, 0.2);
+
+  width: fit-content; /* Set the width to fit the content */
+  min-width: 100px; /* Set a minimum width for the box */
 }
 
 .weather-box .weather {
