@@ -2,6 +2,7 @@
 export interface Weather {
   main: {
     temp: number;
+    feels_like: number;
   };
   name: string;
   sys: {
