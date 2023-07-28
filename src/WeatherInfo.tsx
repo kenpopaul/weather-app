@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Weather } from "./types";
 import WindCompass from "./WindCompass";
 
@@ -80,6 +80,11 @@ const weatherIcons: Record<string, string> = {
 };
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
+  useEffect(() => {
+    // Save the last searched location in localStorage
+    localStorage.setItem("lastSearchedLocation", weather.name);
+  }, [weather]);
+
   return (
     <div>
       <div className="location-box">
