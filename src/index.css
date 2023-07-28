@@ -19,6 +19,10 @@ body {
   background-image: url("./assets/warm.jpeg");
 }
 
+.feels-like {
+  font-size: 20px;
+}
+
 main {
   min-height: 100vh;
   background-image: linear-gradient(
