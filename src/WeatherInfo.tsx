@@ -89,10 +89,12 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
         <div className="date">{dateBuilder(new Date())}</div>
       </div>
       <div className="weather-box">
-        <div className="temp">
-          <div>{Math.round(weather.main.temp)}°c</div>
-          <div className="feels-like">
-            Feels like: {Math.round(weather.main.feels_like)}°c
+        <div className="temp-container">
+          <div className="temp">
+            <div>{Math.round(weather.main.temp)}°c</div>
+            <div className="feels-like">
+              Feels like: {Math.round(weather.main.feels_like)}°c
+            </div>
           </div>
         </div>
 
