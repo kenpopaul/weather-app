@@ -101,7 +101,9 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
                   alt="Weather Icon"
                   className="weather-icon"
                 />
-                <div>{weather.weather[0].description}</div>
+                <span className="small-text">
+                  {weather.weather[0].description}
+                </span>
               </div>
             )}
             {/* Wind Speed & Direction */}
