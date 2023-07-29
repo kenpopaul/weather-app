@@ -1,3 +1,5 @@
+/* Your existing CSS */
+
 * {
   margin: 0;
   padding: 0;
@@ -42,21 +44,16 @@ main {
   display: block;
   width: 100%;
   padding: 15px;
-
   appearance: none;
   background: none;
   border: none;
   outline: none;
-
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 0px 0px 16px 16px;
   margin-top: -25px;
-
   box-shadow: 0px 5px rgba(0, 0, 0, 0.2);
-
   color: #313131;
   font-size: 30px;
-
   transition: 0.4s ease;
 }
 
@@ -82,11 +79,11 @@ main {
 }
 
 .small-text {
-  font-size: 28px; /* You can adjust the font size to your desired value */
+  font-size: 28px;
 }
 
 .temp-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
 }
@@ -94,7 +91,9 @@ main {
 .weather-box {
   text-align: center;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .weather-box .temp,
@@ -111,8 +110,8 @@ main {
   text-shadow: 3px 6px rgba(50, 50, 70, 0.5);
   text-align: center;
   box-shadow: 3px 6px rgba(0, 0, 0, 0.2);
-  width: fit-content; /* Set the width to fit the content */
-  min-width: 100px; /* Set a minimum width for the box */
+  width: fit-content;
+  min-width: 100px;
 }
 
 .weather-description {
@@ -120,6 +119,7 @@ main {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-top: 10px;
 }
 
 .weather-box .weather {
