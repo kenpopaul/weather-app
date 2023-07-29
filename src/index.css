@@ -79,7 +79,7 @@ main {
 }
 
 .small-text {
-  font-size: 28px;
+  font-size: 18px;
 }
 
 .temp-container {
@@ -94,6 +94,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .weather-box .temp,
@@ -147,4 +148,5 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-end; /* Align text to the right */
+  flex: 1;
 }
