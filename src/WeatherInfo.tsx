@@ -1,19 +1,11 @@
-import React, { useEffect } from "react";
-import { Weather } from "./types";
+import React, { useEffect, useState } from "react";
+import { Weather, WeatherDescription } from "./types";
 import WindCompass from "./WindCompass";
-
-import sunnyIcon from "./assets/sunny-icon.png";
-import rainyIcon from "./assets/rainy-icon.png";
-import cloudyIcon from "./assets/cloudy-icon.png";
-import fogIcon from "./assets/fog-icon.png";
-import hailIcon from "./assets/hail-icon.png";
-import snowIcon from "./assets/snow-icon.png";
 
 interface WeatherInfoProps {
   weather: Weather;
 }
 
-// Utility function to get wind direction
 const getWindDirection = (deg: number): string => {
   const directions: string[] = [
     "N",
@@ -70,18 +62,13 @@ const dateBuilder = (d: Date): string => {
   return `${day} ${date} ${month} ${year}`;
 };
 
-const weatherIcons: Record<string, string> = {
-  Clear: sunnyIcon,
-  Rain: rainyIcon,
-  Clouds: cloudyIcon,
-  Fog: fogIcon,
-  Hail: hailIcon,
-  Snow: snowIcon,
-};
-
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
+  const [weatherIcon, setWeatherIcon] = useState<string | null>(null);
+
   useEffect(() => {
-    // Save the last searched location in localStorage
+    const weatherIconCode = weather.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
+    setWeatherIcon(iconUrl);
     localStorage.setItem("lastSearchedLocation", weather.name);
   }, [weather]);
 
@@ -106,21 +93,25 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
         {/* Weather Icons */}
         <div className="weather">
           <div className="weather-icon-pic">
-            <img
-              src={weatherIcons[weather.weather[0].main]}
-              alt="Weather Icon"
-              className="weather-icon"
-            />
+            {weatherIcon && (
+              <img
+                src={weatherIcon}
+                alt="Weather Icon"
+                className="weather-icon"
+              />
+            )}
           </div>
           <div className="wind-info">
             {/* Weather Description */}
-            <div className="weather-description">{weather.weather[0].main}</div>
+            <div className="weather-description">
+              {weather.weather[0].description}
+            </div>
             {/* Wind Speed & Direction */}
             <div className="wind">
               <div>
                 Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
               </div>
-              Wind Direction: {getWindDirection(weather.wind.deg)}
+              <div>Wind Direction: {getWindDirection(weather.wind.deg)}</div>
             </div>
           </div>
 
