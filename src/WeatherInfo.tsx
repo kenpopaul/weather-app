@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Weather, WeatherDescription } from "./types";
+import { Weather } from "./types";
 import WindCompass from "./WindCompass";
 
 interface WeatherInfoProps {
@@ -92,20 +92,20 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
 
         {/* Weather Icons */}
         <div className="weather">
-          <div className="weather-icon-pic">
-            {weatherIcon && (
-              <img
-                src={weatherIcon}
-                alt="Weather Icon"
-                className="weather-icon"
-              />
-            )}
-          </div>
           <div className="wind-info">
-            {/* Weather Description */}
-            <div className="weather-description">
-              {weather.weather[0].description}
-            </div>
+            {/* Weather Icon and Description */}
+            {weatherIcon && (
+              <div className="weather-description">
+                <img
+                  src={weatherIcon}
+                  alt="Weather Icon"
+                  className="weather-icon"
+                />
+                <span className="small-text">
+                  {weather.weather[0].description}
+                </span>
+              </div>
+            )}
             {/* Wind Speed & Direction */}
             <div className="wind">
               <div>

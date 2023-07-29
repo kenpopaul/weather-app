@@ -1,3 +1,5 @@
+/* Your existing CSS */
+
 * {
   margin: 0;
   padding: 0;
@@ -42,21 +44,16 @@ main {
   display: block;
   width: 100%;
   padding: 15px;
-
   appearance: none;
   background: none;
   border: none;
   outline: none;
-
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 0px 0px 16px 16px;
   margin-top: -25px;
-
   box-shadow: 0px 5px rgba(0, 0, 0, 0.2);
-
   color: #313131;
   font-size: 30px;
-
   transition: 0.4s ease;
 }
 
@@ -81,8 +78,12 @@ main {
   text-shadow: 2px 2px rgba(50, 50, 70, 0.5);
 }
 
+.small-text {
+  font-size: 18px;
+}
+
 .temp-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
 }
@@ -90,7 +91,10 @@ main {
 .weather-box {
   text-align: center;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .weather-box .temp,
@@ -100,19 +104,23 @@ main {
   margin: 30px auto;
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
-
   padding: 8px 8px;
-
   color: #fff;
   font-size: 60px;
   font-weight: 900;
-
   text-shadow: 3px 6px rgba(50, 50, 70, 0.5);
   text-align: center;
   box-shadow: 3px 6px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  min-width: 100px;
+}
 
-  width: fit-content; /* Set the width to fit the content */
-  min-width: 100px; /* Set a minimum width for the box */
+.weather-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .weather-box .weather {
@@ -140,4 +148,5 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-end; /* Align text to the right */
+  flex: 1;
 }
