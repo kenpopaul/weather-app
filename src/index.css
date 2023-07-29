@@ -35,6 +35,10 @@ main {
   padding: 25px;
 }
 
+.compass-container {
+  margin: 10px auto;
+}
+
 .search-box {
   width: 100%;
   margin: 0 0 75px;
@@ -87,7 +91,7 @@ main {
 }
 
 .small-text {
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .temp-container {
@@ -147,8 +151,8 @@ main {
 }
 
 .weather-icon {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .weather {
