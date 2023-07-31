@@ -21,6 +21,26 @@ body {
   background-image: url("./assets/warm.jpeg");
 }
 
+/* Cold weather background */
+.cold-weather {
+  background-image: url("./assets/freezing.webp");
+}
+
+/* Cool weather background */
+.cool-weather {
+  background-image: url("./assets/cold1.jpeg");
+}
+
+/* Warm weather background */
+.warm-weather {
+  background-image: url("./assets/warm.jpeg");
+}
+
+/* Hot weather background */
+.hot-weather {
+  background-image: url("./assets/boiling.jpeg");
+}
+
 .feels-like {
   font-size: 20px;
 }
