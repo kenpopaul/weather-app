@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchBox from "./SearchBox";
 import WeatherInfo from "./WeatherInfo";
-import { Weather, api } from "./types"; // Import Weather and api from types.ts
+import { Weather, api } from "./types";
 
 function App(): JSX.Element {
   const [weather, setWeather] = useState<Weather | {}>({});
@@ -30,15 +30,25 @@ function App(): JSX.Element {
       });
   };
 
+  const getTemperatureClass = (temp: number): string => {
+    if (temp <= 5) {
+      return "cold-weather";
+    } else if (temp > 5 && temp <= 10) {
+      return "cool-weather";
+    } else if (temp > 11 && temp <= 30) {
+      return "warm-weather";
+    } else {
+      return "hot-weather";
+    }
+  };
+
   return (
     <div
-      className={
+      className={`app ${
         typeof (weather as Weather).main !== "undefined"
-          ? (weather as Weather).main.temp > 16
-            ? "app warm"
-            : "app"
-          : "app"
-      }
+          ? getTemperatureClass((weather as Weather).main.temp)
+          : ""
+      }`}
     >
       <main>
         <SearchBox onSearch={searchWeather} />

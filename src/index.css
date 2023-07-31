@@ -21,6 +21,26 @@ body {
   background-image: url("./assets/warm.jpeg");
 }
 
+/* Cold weather background */
+.cold-weather {
+  background-image: url("./assets/freezing.webp");
+}
+
+/* Cool weather background */
+.cool-weather {
+  background-image: url("./assets/cold1.jpeg");
+}
+
+/* Warm weather background */
+.warm-weather {
+  background-image: url("./assets/warm.jpeg");
+}
+
+/* Hot weather background */
+.hot-weather {
+  background-image: url("./assets/boiling.jpeg");
+}
+
 .feels-like {
   font-size: 20px;
 }
@@ -33,6 +53,10 @@ main {
     rgba(0, 0, 0, 0.75)
   );
   padding: 25px;
+}
+
+.compass-container {
+  margin: 10px auto;
 }
 
 .search-box {
@@ -61,6 +85,14 @@ main {
   background-color: rgba(255, 255, 255, 0.75);
 }
 
+.location-box {
+  position: absolute;
+  top: 80px; /* Adjust this value to move the location box up or down */
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
 .location-box .location {
   color: #fff;
   font-size: 42px;
@@ -79,7 +111,7 @@ main {
 }
 
 .small-text {
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .temp-container {
@@ -139,8 +171,8 @@ main {
 }
 
 .weather-icon {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .weather {

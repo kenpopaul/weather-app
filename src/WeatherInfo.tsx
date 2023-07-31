@@ -6,7 +6,7 @@ interface WeatherInfoProps {
   weather: Weather;
 }
 
-const getWindDirection = (deg: number): string => {
+const getWindDirection = (degrees: number): string => {
   const directions: string[] = [
     "N",
     "NNE",
@@ -25,11 +25,11 @@ const getWindDirection = (deg: number): string => {
     "NW",
     "NNW",
   ];
-  const index = Math.round(deg / 22.5) % 16;
+  const index = Math.round(degrees / 22.5) % 16;
   return directions[index];
 };
 
-const dateBuilder = (d: Date): string => {
+const dateBuilder = (currentDate: Date): string => {
   const months: string[] = [
     "January",
     "February",
@@ -54,10 +54,10 @@ const dateBuilder = (d: Date): string => {
     "Saturday",
   ];
 
-  const day: string = days[d.getDay()];
-  const date: number = d.getDate();
-  const month: string = months[d.getMonth()];
-  const year: number = d.getFullYear();
+  const day: string = days[currentDate.getDay()];
+  const date: number = currentDate.getDate();
+  const month: string = months[currentDate.getMonth()];
+  const year: number = currentDate.getFullYear();
 
   return `${day} ${date} ${month} ${year}`;
 };
