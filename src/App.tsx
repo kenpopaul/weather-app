@@ -35,7 +35,7 @@ function App(): JSX.Element {
       return "cold-weather";
     } else if (temp > 5 && temp <= 10) {
       return "cool-weather";
-    } else if (temp > 11 && temp <= 28) {
+    } else if (temp > 10 && temp <= 28) {
       return "warm-weather";
     } else {
       return "hot-weather";
