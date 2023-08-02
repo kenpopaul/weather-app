@@ -16,6 +16,12 @@ const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
   const cardinalDirectionFontSize = 14; // Adjust the font size here
   const outerCircleStrokeWidth = 8; // Adjust the stroke width of the outer circle here
 
+  // Calculate angles for the 16 wind directions (in degrees)
+  const windAngles = [
+    0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270,
+    292.5, 315, 337.5,
+  ];
+
   return (
     <svg
       className="wind-compass"
@@ -28,15 +34,6 @@ const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
       }`}
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Compass circle */}
-      <circle
-        cx="0"
-        cy="0"
-        r={compassRadius}
-        fill="black"
-        stroke="#fff"
-        strokeWidth="2"
-      />
       {/* Outer circle */}
       <circle
         cx="0"
@@ -45,6 +42,15 @@ const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
         fill="transparent"
         strokeWidth={outerCircleStrokeWidth}
         stroke="grey"
+      />
+      {/* Compass circle */}
+      <circle
+        cx="0"
+        cy="0"
+        r={compassRadius}
+        fill="black"
+        stroke="#fff"
+        strokeWidth="2"
       />
       {/* Handle with small red circle at the end */}
       <line
@@ -94,6 +100,25 @@ const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
       >
         W
       </text>
+      {/* Add small lines for 16 wind directions */}
+      {windAngles.map((angle) => {
+        const angleInRadians = angle * (Math.PI / 180);
+        const lineX1 = Math.cos(angleInRadians) * (compassRadius - 12); // Adjust the length of the lines
+        const lineY1 = Math.sin(angleInRadians) * (compassRadius - 12); // Adjust the length of the lines
+        const lineX2 = Math.cos(angleInRadians) * compassRadius;
+        const lineY2 = Math.sin(angleInRadians) * compassRadius;
+        return (
+          <line
+            key={angle}
+            x1={lineX1}
+            y1={lineY1}
+            x2={lineX2}
+            y2={lineY2}
+            stroke="grey"
+            strokeWidth="1"
+          />
+        );
+      })}
     </svg>
   );
 };
