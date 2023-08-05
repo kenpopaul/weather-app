@@ -109,7 +109,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
             {/* Wind Speed & Direction */}
             <div className="wind">
               <div>
-                Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
+                Wind Speed: {Math.round(weather.wind.speed * 2.23694)} mph
               </div>
               <div>Wind Direction: {getWindDirection(weather.wind.deg)}</div>
             </div>
