@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchBox from "./SearchBox";
 import WeatherInfo from "./WeatherInfo";
+import LastVisitedLocations from "./LastVisitedLocations";
 import { Weather, api } from "./types";
 
 function App(): JSX.Element {
