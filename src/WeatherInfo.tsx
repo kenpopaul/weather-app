@@ -2,11 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Weather } from "./types";
 import WindCompass from "./WindCompass";
 
-interface LocationData {
-  name: string;
-  country: string;
-}
-
 interface WeatherInfoProps {
   weather: Weather;
 }
@@ -69,41 +64,13 @@ const dateBuilder = (currentDate: Date): string => {
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
   const [weatherIcon, setWeatherIcon] = useState<string | null>(null);
-  const [lastVisitedLocations, setLastVisitedLocations] = useState<
-    LocationData[]
-  >([]);
 
   useEffect(() => {
     const weatherIconCode = weather.weather[0].icon;
     const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
     setWeatherIcon(iconUrl);
-
-    const currentLocation: LocationData = {
-      name: weather.name,
-      country: weather.sys.country,
-    };
-    saveLocationToLocalStorage(currentLocation);
-
-    const lastLocationsFromStorage = getLocationsFromLocalStorage();
-    setLastVisitedLocations(lastLocationsFromStorage);
+    localStorage.setItem("lastSearchedLocation", weather.name);
   }, [weather]);
-
-  const saveLocationToLocalStorage = (locationData: LocationData) => {
-    const storedLocations = getLocationsFromLocalStorage();
-    const updatedLocations = [locationData, ...storedLocations.slice(0, 3)];
-    localStorage.setItem(
-      "lastVisitedLocations",
-      JSON.stringify(updatedLocations)
-    );
-  };
-
-  const getLocationsFromLocalStorage = (): LocationData[] => {
-    const storedLocationsString = localStorage.getItem("lastVisitedLocations");
-    if (storedLocationsString) {
-      return JSON.parse(storedLocationsString);
-    }
-    return [];
-  };
 
   return (
     <div>
@@ -123,8 +90,10 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           </div>
         </div>
 
+        {/* Weather Icons */}
         <div className="weather">
           <div className="wind-info">
+            {/* Weather Icon and Description */}
             {weatherIcon && (
               <div className="weather-description">
                 <img
@@ -137,29 +106,20 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
                 </span>
               </div>
             )}
+            {/* Wind Speed & Direction */}
             <div className="wind">
               <div>
-                Wind Speed: {Math.round(weather.wind.speed * 2.23694)} mph
+                Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
               </div>
               <div>Wind Direction: {getWindDirection(weather.wind.deg)}</div>
             </div>
           </div>
 
+          {/* WindCompass component */}
           <div className="compass-container">
             <WindCompass windDirection={weather.wind.deg} />
           </div>
         </div>
-      </div>
-
-      <div className="last-visited-locations">
-        <h2>Last 4 Visited Locations:</h2>
-        <ul>
-          {lastVisitedLocations.map((location, index) => (
-            <li key={index}>
-              {location.name}, {location.country}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
