@@ -125,6 +125,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
       <div className="location-box">
         <div className="location">
           Location: {weather.name}, {weather.sys.country}
+          <button onClick={handleAddLocation}>+</button>
         </div>
         <div className="date">{dateBuilder(new Date())}</div>
       </div>
@@ -174,8 +175,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           ))}
         </ul>
       </div>
-
-      <button onClick={handleAddLocation}>+</button>
     </div>
   );
 };
