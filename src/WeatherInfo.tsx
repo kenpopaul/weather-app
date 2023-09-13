@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Weather } from "./types";
 import WindCompass from "./WindCompass";
 
+interface LocationData {
+  name: string;
+  country: string;
+}
+
 interface WeatherInfoProps {
   weather: Weather;
 }
@@ -63,14 +68,57 @@ const dateBuilder = (currentDate: Date): string => {
 };
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
-  const [weatherIcon, setWeatherIcon] = useState<string | null>(null);
+  const [lastVisitedLocations, setLastVisitedLocations] = useState<
+    LocationData[]
+  >([]);
+  const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(
+    null
+  );
+
+  const handleAddLocation = () => {
+    if (weather) {
+      const currentLocation: LocationData = {
+        name: weather.name,
+        country: weather.sys?.country,
+      };
+      saveLocationToLocalStorage(currentLocation);
+      const lastLocationsFromStorage = getLocationsFromLocalStorage();
+      setLastVisitedLocations(lastLocationsFromStorage);
+    }
+  };
+
+  const handleStoredLocationClick = (location: LocationData) => {
+    setSelectedLocation(location);
+  };
+
+  const saveLocationToLocalStorage = (locationData: LocationData) => {
+    const storedLocations = getLocationsFromLocalStorage();
+    const updatedLocations = [locationData, ...storedLocations.slice(0, 4)];
+    localStorage.setItem(
+      "lastVisitedLocations",
+      JSON.stringify(updatedLocations)
+    );
+  };
+
+  const getLocationsFromLocalStorage = (): LocationData[] => {
+    const storedLocationsString = localStorage.getItem("lastVisitedLocations");
+    if (storedLocationsString) {
+      return JSON.parse(storedLocationsString);
+    }
+    return [];
+  };
 
   useEffect(() => {
-    const weatherIconCode = weather.weather[0].icon;
-    const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
-    setWeatherIcon(iconUrl);
-    localStorage.setItem("lastSearchedLocation", weather.name);
-  }, [weather]);
+    const lastLocationsFromStorage = getLocationsFromLocalStorage();
+    setLastVisitedLocations(lastLocationsFromStorage);
+  }, []);
+
+  if (!weather) {
+    return <div>Loading...</div>;
+  }
+
+  const weatherIconCode = weather.weather[0].icon;
+  const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
 
   return (
     <div>
@@ -94,18 +142,12 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
         <div className="weather">
           <div className="wind-info">
             {/* Weather Icon and Description */}
-            {weatherIcon && (
-              <div className="weather-description">
-                <img
-                  src={weatherIcon}
-                  alt="Weather Icon"
-                  className="weather-icon"
-                />
-                <span className="small-text">
-                  {weather.weather[0].description}
-                </span>
-              </div>
-            )}
+            <div className="weather-description">
+              <img src={iconUrl} alt="Weather Icon" className="weather-icon" />
+              <span className="small-text">
+                {weather.weather[0].description}
+              </span>
+            </div>
             {/* Wind Speed & Direction */}
             <div className="wind">
               <div>
@@ -121,6 +163,19 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           </div>
         </div>
       </div>
+
+      <div className="stored-locations">
+        <h2>Stored Locations:</h2>
+        <ul>
+          {lastVisitedLocations.map((location, index) => (
+            <li key={index} onClick={() => handleStoredLocationClick(location)}>
+              {location.name}, {location.country}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <button onClick={handleAddLocation}>+</button>
     </div>
   );
 };
