@@ -55,6 +55,11 @@ main {
   padding: 25px;
 }
 
+.button-location {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
 .compass-container {
   margin: 10px auto;
 }
