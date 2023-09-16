@@ -172,7 +172,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
             <button
               key={index}
               onClick={() => handleStoredLocationClick(location)}
-              style={{ marginRight: "10px", marginBottom: "10px" }}
+              className="button-location"
             >
               {location.name}, {location.country}
             </button>
