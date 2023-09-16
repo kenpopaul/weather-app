@@ -117,11 +117,14 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
     return <div>Loading...</div>;
   }
 
+  const weatherIconCode = weather.weather[0].icon;
+  const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
+
   return (
     <div>
       <div className="location-box">
         <div className="location">
-          Location: {weather?.name}, {weather?.sys.country}
+          Location: {weather.name}, {weather.sys.country}
           <button onClick={handleAddLocation}>+</button>
         </div>
         <div className="date">{dateBuilder(new Date())}</div>
@@ -141,11 +144,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           <div className="wind-info">
             {/* Weather Icon and Description */}
             <div className="weather-description">
-              <img
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
-                alt="Weather Icon"
-                className="weather-icon"
-              />
+              <img src={iconUrl} alt="Weather Icon" className="weather-icon" />
               <span className="small-text">
                 {weather.weather[0].description}
               </span>
@@ -170,11 +169,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
         <h2>Stored Locations:</h2>
         <ul>
           {lastVisitedLocations.map((location, index) => (
-            <li
-              key={index}
-              onClick={() => handleStoredLocationClick(location)}
-              style={{ cursor: "pointer" }}
-            >
+            <li key={index} onClick={() => handleStoredLocationClick(location)}>
               {location.name}, {location.country}
             </li>
           ))}
