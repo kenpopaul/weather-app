@@ -167,13 +167,17 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
 
       <div className="stored-locations">
         <h2>Stored Locations:</h2>
-        <ul>
+        <div>
           {lastVisitedLocations.map((location, index) => (
-            <li key={index} onClick={() => handleStoredLocationClick(location)}>
+            <button
+              key={index}
+              onClick={() => handleStoredLocationClick(location)}
+              style={{ marginRight: "10px", marginBottom: "10px" }}
+            >
               {location.name}, {location.country}
-            </li>
+            </button>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
