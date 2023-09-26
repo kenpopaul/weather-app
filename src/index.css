@@ -119,6 +119,14 @@ main {
   font-size: 21px;
 }
 
+.stored-locations {
+  text-align: center;
+}
+
+.stored-locations-heading {
+  color: white;
+}
+
 .temp-container {
   display: inline-flex;
   flex-direction: column;
