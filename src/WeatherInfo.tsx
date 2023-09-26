@@ -79,7 +79,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
     if (weather) {
       const currentLocation: LocationData = {
         name: weather.name,
-        country: weather.sys?.country,
+        country: weather.sys?.country || "",
       };
       saveLocationToLocalStorage(currentLocation);
       const lastLocationsFromStorage = getLocationsFromLocalStorage();
@@ -117,6 +117,12 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
     return <div>Loading...</div>;
   }
 
+  const isLocationStored = lastVisitedLocations.some(
+    (location) =>
+      location.name === weather.name &&
+      location.country === weather.sys?.country
+  );
+
   const weatherIconCode = weather.weather[0].icon;
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
 
@@ -124,8 +130,8 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
     <div>
       <div className="location-box">
         <div className="location">
-          Location: {weather.name}, {weather.sys.country}
-          <button onClick={handleAddLocation}>+</button>
+          Location: {weather.name}, {weather.sys?.country}
+          {!isLocationStored && <button onClick={handleAddLocation}>+</button>}
         </div>
         <div className="date">{dateBuilder(new Date())}</div>
       </div>
@@ -164,7 +170,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           </div>
         </div>
       </div>
-
       <div className="stored-locations">
         <h2>Stored Locations:</h2>
         <div>
