@@ -171,7 +171,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
         </div>
       </div>
       <div className="stored-locations">
-        <h2>Stored Locations:</h2>
+        <h2 className="stored-locations-heading">Stored Locations:</h2>
         <div>
           {lastVisitedLocations.map((location, index) => (
             <button
