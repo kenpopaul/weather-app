@@ -119,6 +119,14 @@ main {
   font-size: 21px;
 }
 
+.stored-location button {
+  background-color: #ff0000; /* Red color for the button */
+  color: #ffffff; /* White text color */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
 .stored-locations {
   text-align: center;
 }

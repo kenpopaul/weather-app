@@ -91,6 +91,16 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
     setSelectedLocation(location);
   };
 
+  const handleRemoveLocation = (index: number) => {
+    const updatedLocations = [...lastVisitedLocations];
+    updatedLocations.splice(index, 1);
+    setLastVisitedLocations(updatedLocations);
+    localStorage.setItem(
+      "lastVisitedLocations",
+      JSON.stringify(updatedLocations)
+    );
+  };
+
   const saveLocationToLocalStorage = (locationData: LocationData) => {
     const storedLocations = getLocationsFromLocalStorage();
     const updatedLocations = [locationData, ...storedLocations.slice(0, 4)];
@@ -172,15 +182,12 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
       </div>
       <div className="stored-locations">
         <h2 className="stored-locations-heading">Stored Locations:</h2>
-        <div>
+        <div className="stored-locations-list">
           {lastVisitedLocations.map((location, index) => (
-            <button
-              key={index}
-              onClick={() => handleStoredLocationClick(location)}
-              className="button-location"
-            >
+            <div key={index} className="stored-location">
+              <button onClick={() => handleRemoveLocation(index)}>X</button>
               {location.name}, {location.country}
-            </button>
+            </div>
           ))}
         </div>
       </div>
