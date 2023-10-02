@@ -91,6 +91,16 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
     setSelectedLocation(location);
   };
 
+  const handleRemoveLocation = (index: number) => {
+    const updatedLocations = [...lastVisitedLocations];
+    updatedLocations.splice(index, 1);
+    setLastVisitedLocations(updatedLocations);
+    localStorage.setItem(
+      "lastVisitedLocations",
+      JSON.stringify(updatedLocations)
+    );
+  };
+
   const saveLocationToLocalStorage = (locationData: LocationData) => {
     const storedLocations = getLocationsFromLocalStorage();
     const updatedLocations = [locationData, ...storedLocations.slice(0, 4)];
@@ -145,17 +155,14 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           </div>
         </div>
 
-        {/* Weather Icons */}
         <div className="weather">
           <div className="wind-info">
-            {/* Weather Icon and Description */}
             <div className="weather-description">
               <img src={iconUrl} alt="Weather Icon" className="weather-icon" />
               <span className="small-text">
                 {weather.weather[0].description}
               </span>
             </div>
-            {/* Wind Speed & Direction */}
             <div className="wind">
               <div>
                 Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
@@ -164,7 +171,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
             </div>
           </div>
 
-          {/* WindCompass component */}
           <div className="compass-container">
             <WindCompass windDirection={weather.wind.deg} />
           </div>
@@ -172,15 +178,22 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
       </div>
       <div className="stored-locations">
         <h2 className="stored-locations-heading">Stored Locations:</h2>
-        <div>
+        <div className="location-buttons-container">
           {lastVisitedLocations.map((location, index) => (
-            <button
-              key={index}
-              onClick={() => handleStoredLocationClick(location)}
-              className="button-location"
-            >
-              {location.name}, {location.country}
-            </button>
+            <div key={index} className="stored-location-box">
+              <button
+                onClick={() => handleRemoveLocation(index)}
+                className="remove-location-button"
+              >
+                X
+              </button>
+              <button
+                onClick={() => handleStoredLocationClick(location)}
+                className="button-location"
+              >
+                {location.name}, {location.country}
+              </button>
+            </div>
           ))}
         </div>
       </div>
