@@ -155,17 +155,14 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
           </div>
         </div>
 
-        {/* Weather Icons */}
         <div className="weather">
           <div className="wind-info">
-            {/* Weather Icon and Description */}
             <div className="weather-description">
               <img src={iconUrl} alt="Weather Icon" className="weather-icon" />
               <span className="small-text">
                 {weather.weather[0].description}
               </span>
             </div>
-            {/* Wind Speed & Direction */}
             <div className="wind">
               <div>
                 Wind speed: {Math.round(weather.wind.speed * 2.23694)} mph
@@ -174,7 +171,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
             </div>
           </div>
 
-          {/* WindCompass component */}
           <div className="compass-container">
             <WindCompass windDirection={weather.wind.deg} />
           </div>
@@ -182,11 +178,21 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
       </div>
       <div className="stored-locations">
         <h2 className="stored-locations-heading">Stored Locations:</h2>
-        <div className="stored-locations-list">
+        <div className="location-buttons-container">
           {lastVisitedLocations.map((location, index) => (
-            <div key={index} className="stored-location">
-              <button onClick={() => handleRemoveLocation(index)}>X</button>
-              {location.name}, {location.country}
+            <div key={index} className="stored-location-box">
+              <button
+                onClick={() => handleRemoveLocation(index)}
+                className="remove-location-button"
+              >
+                X
+              </button>
+              <button
+                onClick={() => handleStoredLocationClick(location)}
+                className="button-location"
+              >
+                {location.name}, {location.country}
+              </button>
             </div>
           ))}
         </div>
