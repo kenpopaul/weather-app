@@ -9,6 +9,8 @@ interface LocationData {
 
 interface WeatherInfoProps {
   weather: Weather;
+  fetchWeatherData: (name: string, country: string) => Promise<Weather>;
+  setWeather: React.Dispatch<React.SetStateAction<Weather>>;
 }
 
 const getWindDirection = (degrees: number): string => {
@@ -67,7 +69,11 @@ const dateBuilder = (currentDate: Date): string => {
   return `${day} ${date} ${month} ${year}`;
 };
 
-const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
+const WeatherInfo: React.FC<WeatherInfoProps> = ({
+  weather,
+  fetchWeatherData,
+  setWeather,
+}) => {
   const [lastVisitedLocations, setLastVisitedLocations] = useState<
     LocationData[]
   >([]);
@@ -88,7 +94,12 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ weather }) => {
   };
 
   const handleStoredLocationClick = (location: LocationData) => {
-    setSelectedLocation(location);
+    fetchWeatherData(location.name, location.country)
+      .then((result: Weather) => {
+        setWeather(result);
+        setSelectedLocation(location);
+      })
+      .catch((error) => console.error("Error fetching weather data:", error));
   };
 
   const handleRemoveLocation = (index: number) => {
