@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Weather } from "./types";
 import WindCompass from "./WindCompass";
 
+// Define the structure of the data representing a location
 interface LocationData {
   name: string;
   country: string;
 }
 
+// Define the properties expected by the WeatherInfo component
 interface WeatherInfoProps {
   weather: Weather;
   fetchWeatherData: (name: string, country: string) => Promise<Weather>;
   setWeather: React.Dispatch<React.SetStateAction<Weather>>;
 }
 
+// Function to get the wind direction based on degrees
 const getWindDirection = (degrees: number): string => {
   const directions: string[] = [
     "N",
@@ -36,6 +39,7 @@ const getWindDirection = (degrees: number): string => {
   return directions[index];
 };
 
+// Function to build a date string from a Date object
 const dateBuilder = (currentDate: Date): string => {
   const months: string[] = [
     "January",
@@ -69,11 +73,13 @@ const dateBuilder = (currentDate: Date): string => {
   return `${day} ${date} ${month} ${year}`;
 };
 
+// Define the WeatherInfo component as a functional component
 const WeatherInfo: React.FC<WeatherInfoProps> = ({
   weather,
   fetchWeatherData,
   setWeather,
 }) => {
+  // State hooks to manage last visited locations and the selected location
   const [lastVisitedLocations, setLastVisitedLocations] = useState<
     LocationData[]
   >([]);
@@ -81,6 +87,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({
     null
   );
 
+  // Function to handle adding the current weather location to storage
   const handleAddLocation = () => {
     if (weather) {
       const currentLocation: LocationData = {
@@ -93,6 +100,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({
     }
   };
 
+  // Function to handle clicking on a stored location
   const handleStoredLocationClick = (location: LocationData) => {
     fetchWeatherData(location.name, location.country)
       .then((result: Weather) => {
@@ -102,6 +110,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({
       .catch((error) => console.error("Error fetching weather data:", error));
   };
 
+  // Function to handle removing a stored location
   const handleRemoveLocation = (index: number) => {
     const updatedLocations = [...lastVisitedLocations];
     updatedLocations.splice(index, 1);
@@ -112,6 +121,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({
     );
   };
 
+  // Function to save a location to local storage
   const saveLocationToLocalStorage = (locationData: LocationData) => {
     const storedLocations = getLocationsFromLocalStorage();
     const updatedLocations = [locationData, ...storedLocations.slice(0, 4)];
@@ -121,6 +131,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({
     );
   };
 
+  // Function to get locations from local storage
   const getLocationsFromLocalStorage = (): LocationData[] => {
     const storedLocationsString = localStorage.getItem("lastVisitedLocations");
     if (storedLocationsString) {
@@ -129,24 +140,29 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({
     return [];
   };
 
+  // Effect hook to load last visited locations from storage on component mount
   useEffect(() => {
     const lastLocationsFromStorage = getLocationsFromLocalStorage();
     setLastVisitedLocations(lastLocationsFromStorage);
   }, []);
 
+  // Check if weather data is not available
   if (!weather) {
     return <div>Loading...</div>;
   }
 
+  // Check if the current location is stored
   const isLocationStored = lastVisitedLocations.some(
     (location) =>
       location.name === weather.name &&
       location.country === weather.sys?.country
   );
 
+  // Get the weather icon code and build the icon URL
   const weatherIconCode = weather.weather[0].icon;
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}.png`;
 
+  // Render the WeatherInfo component
   return (
     <div>
       <div className="location-box">
