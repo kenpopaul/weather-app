@@ -1,10 +1,12 @@
 import React from "react";
 
+// Define the properties expected by the WindCompass component
 interface WindCompassProps {
   windDirection: number;
 }
 
 const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
+  // Constants for configuring the appearance of the compass
   const compassRadius = 60; // Adjust the compass radius here
   const handleLength = 55; // Adjust the handle length here
   const handleX =
@@ -22,6 +24,7 @@ const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
     292.5, 315, 337.5,
   ];
 
+  // Render the WindCompass component as an SVG
   return (
     <svg
       className="wind-compass"
