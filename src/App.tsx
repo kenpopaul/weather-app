@@ -1,75 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SearchBox from "./SearchBox";
 import WeatherInfo from "./WeatherInfo";
 import { Weather, api } from "./types";
 
+type FetchState = "idle" | "loading" | "error";
+
 function App(): JSX.Element {
-  const [weather, setWeather] = useState<Weather | {}>({});
+  const [weather, setWeather] = useState<Weather | null>(null);
+  const [fetchState, setFetchState] = useState<FetchState>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Async function to fetch weather data from the API
-  const fetchWeatherData = async (
-    name: string,
-    country: string
-  ): Promise<Weather> => {
-    const response = await fetch(
-      // Construct API endpoint URL with provided parameters
-      `${api.base}weather?q=${name},${country}&units=metric&APPID=${api.key}`
-    );
-    return response.json();
-  };
+  const fetchWeatherData = useCallback(
+    async (name: string, country = ""): Promise<void> => {
+      if (!name.trim()) return;
 
-  // useEffect hook to fetch weather data when the component mounts
+      setFetchState("loading");
+      setErrorMessage(null);
+
+      try {
+        const query = country ? `${name},${country}` : name;
+        const response = await fetch(
+          `${api.base}weather?q=${query}&units=metric&APPID=${api.key}`,
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            response.status === 404
+              ? "Location not found. Please try another city."
+              : "Unable to fetch weather data. Please try again.",
+          );
+        }
+
+        const data: Weather = await response.json();
+        setWeather(data);
+        setFetchState("idle");
+        localStorage.setItem("lastSearchedCity", name);
+      } catch (err) {
+        setFetchState("error");
+        setErrorMessage(
+          err instanceof Error ? err.message : "An unexpected error occurred.",
+        );
+      }
+    },
+    [],
+  );
+
   useEffect(() => {
-    // Retrieve the last searched location from local storage
-    const lastSearchedLocation = localStorage.getItem("lastSearchedLocation");
-    // If a last searched location exists, fetch weather data and set the state
-    if (lastSearchedLocation) {
-      fetchWeatherData(lastSearchedLocation, "")
-        .then((result) => setWeather(result))
-        .catch((error) => console.error("Error fetching weather data:", error));
+    const lastCity = localStorage.getItem("lastSearchedCity");
+    if (lastCity) {
+      fetchWeatherData(lastCity);
     }
-  }, []);
+  }, [fetchWeatherData]);
 
-  // Function to search for weather data based on a query
-  const searchWeather = (query: string) => {
-    // Fetch weather data based on the query and set the state
-    fetchWeatherData(query, "")
-      .then((result) => setWeather(result))
-      .catch((error) => console.error("Error fetching weather data:", error));
-  };
-
-  // Function to determine temperature class based on temperature value
   const getTemperatureClass = (temp: number): string => {
-    if (temp <= 5) {
-      return "cold-weather";
-    } else if (temp <= 10) {
-      return "cool-weather";
-    } else if (temp <= 28) {
-      return "warm-weather";
-    } else {
-      return "hot-weather";
-    }
+    if (temp <= 5) return "cold-weather";
+    if (temp <= 10) return "cool-weather";
+    if (temp <= 28) return "warm-weather";
+    return "hot-weather";
   };
 
-  // Render the main component with conditional class based on temperature
   return (
     <div
-      className={`app ${
-        typeof (weather as Weather).main !== "undefined"
-          ? getTemperatureClass((weather as Weather).main.temp)
-          : ""
-      }`}
+      className={`app ${weather ? getTemperatureClass(weather.main.temp) : ""}`}
     >
       <main>
-        <SearchBox onSearch={searchWeather} />
-        {typeof (weather as Weather).main !== "undefined" ? (
+        <SearchBox
+          onSearch={fetchWeatherData}
+          isLoading={fetchState === "loading"}
+        />
+
+        {fetchState === "error" && errorMessage && (
+          <div className="error-banner" role="alert">
+            {errorMessage}
+          </div>
+        )}
+
+        {fetchState === "loading" && (
+          <div className="loading-state" aria-live="polite">
+            <div className="spinner" />
+          </div>
+        )}
+
+        {weather && fetchState !== "loading" && (
           <WeatherInfo
-            weather={weather as Weather}
+            weather={weather}
             fetchWeatherData={fetchWeatherData}
             setWeather={setWeather}
           />
-        ) : (
-          ""
         )}
       </main>
     </div>

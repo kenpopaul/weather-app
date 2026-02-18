@@ -1,61 +1,66 @@
 import React from "react";
+import "./WindCompass.css";
 
-// Define the properties expected by the WindCompass component
 interface WindCompassProps {
   windDirection: number;
 }
 
+const COMPASS_RADIUS = 60;
+const HANDLE_LENGTH = 50;
+const STROKE_WIDTH = 6;
+const TEXT_OFFSET = 45;
+const WIND_ANGLES = Array.from({ length: 16 }, (_, i) => i * 22.5);
+
 const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
-  // Constants for configuring the appearance of the compass
-  const compassRadius = 60; // Adjust the compass radius here
-  const handleLength = 55; // Adjust the handle length here
-  const handleX =
-    Math.cos((windDirection - 90) * (Math.PI / 180)) * handleLength;
-  const handleY =
-    Math.sin((windDirection - 90) * (Math.PI / 180)) * handleLength;
+  const angleRad = (windDirection - 90) * (Math.PI / 180);
+  const handleX = Math.cos(angleRad) * HANDLE_LENGTH;
+  const handleY = Math.sin(angleRad) * HANDLE_LENGTH;
+  const viewBoxSize = 2 * (COMPASS_RADIUS + STROKE_WIDTH);
+  const viewBoxOrigin = -(COMPASS_RADIUS + STROKE_WIDTH);
 
-  const textOffset = 45;
-  const cardinalDirectionFontSize = 14; // Adjust the font size here
-  const outerCircleStrokeWidth = 8; // Adjust the stroke width of the outer circle here
-
-  // Calculate angles for the 16 wind directions (in degrees)
-  const windAngles = [
-    0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270,
-    292.5, 315, 337.5,
-  ];
-
-  // Render the WindCompass component as an SVG
   return (
     <svg
       className="wind-compass"
-      width={2 * compassRadius + 2 * outerCircleStrokeWidth}
-      height={2 * compassRadius + 2 * outerCircleStrokeWidth}
-      viewBox={`${-compassRadius - outerCircleStrokeWidth} ${
-        -compassRadius - outerCircleStrokeWidth
-      } ${2 * compassRadius + 2 * outerCircleStrokeWidth} ${
-        2 * compassRadius + 2 * outerCircleStrokeWidth
-      }`}
-      xmlns="http://www.w3.org/2000/svg"
+      width={viewBoxSize}
+      height={viewBoxSize}
+      viewBox={`${viewBoxOrigin} ${viewBoxOrigin} ${viewBoxSize} ${viewBoxSize}`}
+      role="img"
+      aria-label={`Wind direction: ${windDirection} degrees`}
     >
-      {/* Outer circle */}
       <circle
         cx="0"
         cy="0"
-        r={compassRadius + outerCircleStrokeWidth / 2} // Adjust the outer circle radius
+        r={COMPASS_RADIUS + STROKE_WIDTH / 2}
         fill="transparent"
-        strokeWidth={outerCircleStrokeWidth}
         stroke="grey"
+        strokeWidth={STROKE_WIDTH}
       />
-      {/* Compass circle */}
       <circle
         cx="0"
         cy="0"
-        r={compassRadius}
+        r={COMPASS_RADIUS}
         fill="black"
         stroke="#fff"
         strokeWidth="2"
       />
-      {/* Handle with small red circle at the end */}
+
+      {WIND_ANGLES.map((angle) => {
+        const rad = angle * (Math.PI / 180);
+        const isCardinal = angle % 90 === 0;
+        const innerR = COMPASS_RADIUS - (isCardinal ? 14 : 8);
+        return (
+          <line
+            key={angle}
+            x1={Math.cos(rad) * innerR}
+            y1={Math.sin(rad) * innerR}
+            x2={Math.cos(rad) * COMPASS_RADIUS}
+            y2={Math.sin(rad) * COMPASS_RADIUS}
+            stroke="grey"
+            strokeWidth={isCardinal ? 1.5 : 0.75}
+          />
+        );
+      })}
+
       <line
         x1="0"
         y1="0"
@@ -63,63 +68,26 @@ const WindCompass: React.FC<WindCompassProps> = ({ windDirection }) => {
         y2={handleY}
         stroke="#fff"
         strokeWidth="2"
+        strokeLinecap="round"
       />
-      <circle cx={handleX} cy={handleY} r="3" fill="red" />{" "}
-      {/* Adjust the size of the red circle */}
-      {/* Add cardinal directions */}
-      <text
-        x="0"
-        y={-textOffset}
-        textAnchor="middle"
-        fill="grey" // Adjust the color here
-        fontSize={cardinalDirectionFontSize} // Use the updated font size here
-      >
-        N
-      </text>
-      <text
-        x="0"
-        y={textOffset}
-        textAnchor="middle"
-        fill="grey" // Adjust the color here
-        fontSize={cardinalDirectionFontSize} // Use the updated font size here
-      >
-        S
-      </text>
-      <text
-        x={textOffset}
-        y="5"
-        textAnchor="middle"
-        fill="grey" // Adjust the color here
-        fontSize={cardinalDirectionFontSize} // Use the updated font size here
-      >
-        E
-      </text>
-      <text
-        x={-textOffset}
-        y="5"
-        textAnchor="middle"
-        fill="grey" // Adjust the color here
-        fontSize={cardinalDirectionFontSize} // Use the updated font size here
-      >
-        W
-      </text>
-      {/* Add small lines for 16 wind directions */}
-      {windAngles.map((angle) => {
-        const angleInRadians = angle * (Math.PI / 180);
-        const lineX1 = Math.cos(angleInRadians) * (compassRadius - 12); // Adjust the length of the lines
-        const lineY1 = Math.sin(angleInRadians) * (compassRadius - 12); // Adjust the length of the lines
-        const lineX2 = Math.cos(angleInRadians) * compassRadius;
-        const lineY2 = Math.sin(angleInRadians) * compassRadius;
+      <circle cx={handleX} cy={handleY} r="4" fill="red" />
+      <circle cx="0" cy="0" r="3" fill="white" opacity="0.6" />
+
+      {(["N", "S", "E", "W"] as const).map((dir) => {
+        const x = dir === "E" ? TEXT_OFFSET : dir === "W" ? -TEXT_OFFSET : 0;
+        const y =
+          dir === "S" ? TEXT_OFFSET + 5 : dir === "N" ? -TEXT_OFFSET + 5 : 5;
         return (
-          <line
-            key={angle}
-            x1={lineX1}
-            y1={lineY1}
-            x2={lineX2}
-            y2={lineY2}
-            stroke="grey"
-            strokeWidth="1"
-          />
+          <text
+            key={dir}
+            x={x}
+            y={y}
+            textAnchor="middle"
+            fill="grey"
+            fontSize="11"
+          >
+            {dir}
+          </text>
         );
       })}
     </svg>
