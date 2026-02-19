@@ -1,5 +1,6 @@
 {
   "name": "weather-app",
+  "homepage": "https://kenpopaul.github.io/weather-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +45,7 @@
     "@types/react": "^18.2.12",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
+    "gh-pages": "^6.3.0",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4"
   }
